@@ -37,9 +37,10 @@ capitalizeParagraph s = go s True
 {-| Phone exercise -}
 
 data ButtonFunction = Capitalize | Character [Char]
-data Button = Button Char ButtonFunction
-newtype DaPhone = DaPhone [Button]
+data Button keyType = Button keyType ButtonFunction
+data DaPhone keyType = DaPhone [Button keyType]
 
+phone :: DaPhone Digit
 phone = DaPhone
   [ Button '1' (Character []), Button '2' (Character "ABC"), Button '3' (Character "DEF")
   , Button '4' (Character "GHI"), Button '5' (Character "JKL"), Button '6' (Character "MNO")
