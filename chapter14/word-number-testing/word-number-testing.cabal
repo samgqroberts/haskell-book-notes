@@ -1,0 +1,52 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 98a074778940d92f48e79849b80d238b779d86bf6e1ecdca50f375aa18ac7784
+
+name:           word-number-testing
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/word-number-testing#readme>
+homepage:       https://github.com/githubuser/word-number-testing#readme
+bug-reports:    https://github.com/githubuser/word-number-testing/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2021 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/word-number-testing
+
+library
+  exposed-modules:
+      WordNumber
+  other-modules:
+      Paths_word_number_testing
+  hs-source-dirs:
+      .
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite word-number-testing-test
+  type: exitcode-stdio-1.0
+  main-is: WordNumberTest.hs
+  other-modules:
+      Paths_word_number_testing
+  hs-source-dirs:
+      .
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , word-number-testing
+    , hspec
+    , QuickCheck
+  default-language: Haskell2010
