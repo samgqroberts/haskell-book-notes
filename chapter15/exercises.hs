@@ -1,3 +1,5 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 import Data.Monoid
 import Data.Semigroup
 import Test.QuickCheck
@@ -44,6 +46,7 @@ data Two a b = Two a b deriving (Eq, Show)
 instance (Semigroup a, Semigroup b) => Semigroup (Two a b) where
   (Two a b) <> (Two a' b') = Two (a <> a') (b <> b')
 
+-- superclass context is what's before the "fat right arrow" - ian
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
   arbitrary = do
     a <- arbitrary
@@ -151,15 +154,22 @@ checkOr = quickCheck (semigroupAssoc :: OrAssoc String String)
 -- it says "The type of functions should already have an Arbitrary instance that you can reuse for testing this instance."
 --   but i have no clue how to generate an arbitrary fn
 
--- newtype Combine a b = Combine { unCombine :: (a -> b) }
+newtype Combine a b = Combine { unCombine :: (a -> b) }
 
--- instance Semigroup b => Semigroup (Combine a b) where
---   (Combine f) <> (Combine g) = Combine (\a -> f a <> g a)
+instance Semigroup b => Semigroup (Combine a b) where
+  (Combine f) <> (Combine g) = Combine (\a -> f a <> g a)
 
--- instance Arbitrary (Combine a b) where
---   arbitrary = do
---     f <- arbitrary :: a -> b
---     return (Combine f)
+instance (Arbitrary b) => Arbitrary (Combine a b) where
+  arbitrary = do
+    -- (f :: a -> b) <- arbitrary
+    b <- arbitrary
+    let f = \x -> b
+    return (Combine f)
 
+type CombineAssoc a b = Combine a b -> Combine a b -> Combine a b -> Bool
 
+combineAssociation :: Combine a b -> Combine a b -> Combine a b -> Bool
+combineAssociation a c1 c2 c3 = (a $ unCombine (c1 <> (c2 <> c3))) == (a $ unCombine ((c1 <> c2) <> c3))
 
+checkCombine :: IO ()
+checkCombine = quickCheck (semigroupAssoc' :: CombineAssoc String String)
