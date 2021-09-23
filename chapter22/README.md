@@ -1,0 +1,2 @@
+- required `stack install hedis` for `Database.Redis`
+- required `stack install scotty` for `Web.Scotty`

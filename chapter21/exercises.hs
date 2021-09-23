@@ -34,16 +34,16 @@ identityTest = do
 -- Constant
 -- tuff!
 
--- newtype Constant a b = Constant { getConstant :: a } deriving (Eq, Ord, Show)
+newtype Constant a b = Constant { getConstant :: a } deriving (Eq, Ord, Show)
 
--- instance Functor (Constant a) where
---   fmap f (Constant a) = Constant a
+instance Functor (Constant a) where
+  fmap f (Constant a) = Constant a
  
--- instance Foldable (Constant a) where
---   foldMap f (Constant a) = mempty
+instance Foldable (Constant a) where
+  foldMap f (Constant a) = mempty
  
--- instance Traversable (Constant a) where 
---   traverse f (Constant a) = 
+instance Traversable (Constant a) where 
+  traverse f (Constant a) = 
  
 
 -- Maybe
@@ -85,6 +85,6 @@ instance Foldable List where
   foldMap _ Nil = mempty
   foldMap f (Cons a as) = f a `mappend` foldMap f as
 
-instance Traversable List where
-  traverse _ Nil = pure Nil
-  traverse f as =  foldMap  $ fmap f as
+-- instance Traversable List where
+--   traverse _ Nil = pure Nil
+--   traverse f as =  foldMap  $ fmap f as
